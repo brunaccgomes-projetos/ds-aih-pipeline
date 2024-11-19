@@ -1,27 +1,52 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 
-# Configuração da sessão Spark
-spark = SparkSession.builder.appName("TransformacaoAIH").getOrCreate()
+# Configuração do Spark
+spark = SparkSession.builder \
+    .appName("Transformacao_AIH") \
+    .getOrCreate()
 
-# Caminho das camadas
-bronze_path = "adl://seu_data_lake/bronze-dados"
-silver_path = "adl://seu_data_lake/silver-dados"
+# Caminhos no Amazon S3 (ajuste conforme sua estrutura de buckets)
+BUCKET_NAME = "seu-bucket-s3"
+BRONZE_PATH = f"s3a://{BUCKET_NAME}/bronze/"
+SILVER_PATH = f"s3a://{BUCKET_NAME}/silver/"
 
 def transformar_dados():
     """
-    Realiza a transformação inicial dos dados da camada Bronze para Silver.
+    Função para limpar e padronizar os dados da camada Bronze e salvá-los na camada Silver.
     """
-    # Leitura dos dados brutos
-    df = spark.read.csv(f"{bronze_path}/*.csv", header=True, inferSchema=True)
-    
-    # Filtrar e limpar colunas principais
-    colunas_principais = ["Ano", "CID_Principal", "Tempo_Internacao", "Custo_Total", "Tipo_Hospital"]
-    df_limpo = df.select(*colunas_principais).filter(col("Tempo_Internacao").isNotNull())
-    
-    # Salvar na camada Silver
-    df_limpo.write.mode("overwrite").parquet(silver_path)
-    print("Transformação concluída!")
+    try:
+        # Leitura dos dados da camada Bronze
+        print("Iniciando leitura dos dados da camada Bronze...")
+        dados_bronze = spark.read.csv(
+            f"{BRONZE_PATH}aih_dados.csv", header=True, inferSchema=True
+        )
+        
+        print("Dados carregados com sucesso. Iniciando transformação...")
 
+        # Transformações principais
+        dados_silver = (
+            dados_bronze
+            .filter(col("custo_total").isNotNull())  # Filtrar registros com custo válido
+            .select(
+                col("cid_principal").alias("diagnostico_principal"),
+                col("tempo_internacao").cast("int"),
+                col("custo_total").cast("double"),
+                col("tipo_hospital"),
+                col("data_admissao"),
+                col("data_alta")
+            )
+        )
+
+        # Salvando os dados transformados na camada Silver
+        print("Salvando dados transformados na camada Silver...")
+        dados_silver.write.mode("overwrite").parquet(SILVER_PATH)
+
+        print("Transformação concluída com sucesso e dados salvos na camada Silver.")
+
+    except Exception as e:
+        print(f"Erro durante a transformação dos dados: {e}")
+
+# Execução da função de transformação
 if __name__ == "__main__":
     transformar_dados()

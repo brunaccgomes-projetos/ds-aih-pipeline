@@ -1,57 +1,59 @@
 import os
-import requests
-from azure.storage.blob import BlobServiceClient
+import boto3
+from botocore.exceptions import NoCredentialsError
+from datetime import datetime
 
-# Configurações iniciais
-AZURE_CONNECTION_STRING = "sua_chave_de_conexão"
-CONTAINER_NAME = "bronze-dados"
-BASE_URL = "https://datasus.saude.gov.br/arquivos/aih"  # Exemplo fictício, ajuste conforme o real
-ANOS = range(2018, 2024)
-ESTADO = "SP"
+# Configurações AWS
+AWS_ACCESS_KEY = 'sua_chave_de_acesso'
+AWS_SECRET_KEY = 'sua_chave_secreta'
+BUCKET_NAME = 'ds-aih-bronze'
 
-def download_dados_aih(ano, estado, output_dir):
-    """
-    Baixa os dados da AIH para um diretório local.
-    """
-    url = f"{BASE_URL}/aih_{ano}_{estado}.csv"
-    response = requests.get(url)
-    if response.status_code == 200:
-        output_path = os.path.join(output_dir, f"aih_{ano}_{estado}.csv")
-        with open(output_path, "wb") as f:
-            f.write(response.content)
-        print(f"Arquivo salvo: {output_path}")
-        return output_path
-    else:
-        print(f"Falha no download: {url}")
-        return None
+# Diretório local para arquivos temporários
+LOCAL_TEMP_DIR = './temp/'
 
-def upload_to_azure(blob_service_client, container_name, file_path):
-    """
-    Faz o upload de um arquivo local para o Azure Data Lake.
-    """
-    blob_name = os.path.basename(file_path)
-    blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
-    with open(file_path, "rb") as data:
-        blob_client.upload_blob(data, overwrite=True)
-    print(f"Upload concluído: {blob_name}")
+# Função para upload ao S3
+def upload_to_s3(file_path, bucket_name, s3_key):
+    try:
+        # Cliente S3
+        s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY, aws_secret_access_key=AWS_SECRET_KEY)
+        
+        # Upload
+        s3.upload_file(file_path, bucket_name, s3_key)
+        print(f"[{datetime.now()}] Sucesso: '{file_path}' enviado para '{bucket_name}/{s3_key}'")
+    except FileNotFoundError:
+        print(f"[{datetime.now()}] Erro: Arquivo '{file_path}' não encontrado.")
+    except NoCredentialsError:
+        print(f"[{datetime.now()}] Erro: Credenciais AWS inválidas.")
 
-def main():
-    # Diretório temporário para salvar arquivos
-    temp_dir = "./temp"
-    os.makedirs(temp_dir, exist_ok=True)
+# Função de ingestão
+def ingest_data_to_s3():
+    # Verifica diretório temporário
+    if not os.path.exists(LOCAL_TEMP_DIR):
+        os.makedirs(LOCAL_TEMP_DIR)
     
-    # Conexão com Azure
-    blob_service_client = BlobServiceClient.from_connection_string(AZURE_CONNECTION_STRING)
+    # Simula criação/ingestão de arquivos
+    # Substitua isso pelo código de extração de dados real
+    arquivos = ['dados1.csv', 'dados2.csv']
+    for arquivo in arquivos:
+        # Caminho local do arquivo
+        file_path = os.path.join(LOCAL_TEMP_DIR, arquivo)
+        
+        # Simula criação de arquivo local
+        with open(file_path, 'w') as f:
+            f.write('id,nome,idade\n1,João,30\n2,Maria,25')
+        print(f"[{datetime.now()}] Arquivo gerado: {file_path}")
+        
+        # Define a chave do arquivo no S3
+        s3_key = f"bronze/{arquivo}"
+        
+        # Envia para o S3
+        upload_to_s3(file_path, BUCKET_NAME, s3_key)
     
-    for ano in ANOS:
-        file_path = download_dados_aih(ano, ESTADO, temp_dir)
-        if file_path:
-            upload_to_azure(blob_service_client, CONTAINER_NAME, file_path)
-    
-    # Limpeza dos arquivos temporários
-    for f in os.listdir(temp_dir):
-        os.remove(os.path.join(temp_dir, f))
-    print("Processo finalizado!")
+    # Limpa arquivos temporários
+    for arquivo in arquivos:
+        os.remove(os.path.join(LOCAL_TEMP_DIR, arquivo))
+        print(f"[{datetime.now()}] Arquivo local removido: {arquivo}")
 
+# Execução do script
 if __name__ == "__main__":
-    main()
+    ingest_data_to_s3()
