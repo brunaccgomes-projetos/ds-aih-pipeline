@@ -3,6 +3,7 @@
 Desenvolvimento de uma pipeline de dados para ingestão e transformação de grandes volumes de dados de internações hospitalares (AIH - Autorização de Internação Hospitalar) do DATASUS.
 
 ## 🛠️ Componentes e Ferramentas:
+
 - **AWS S3:** Armazenamento em camadas (Bronze, Silver e Gold).
 - **Apache Spark:** Processamento distribuído de dados.
 - **Airflow:** Orquestração das tarefas da pipeline.
@@ -86,6 +87,13 @@ https://datasus.saude.gov.br/transferencia-de-arquivos/#
 - Tipo de hospital (público ou privado).
 - Data de admissão e alta.
 
+**4: Orquestração no Airflow**
+
+- Automatização: Orquestrar os processos de ingestão e transformação para serem executados de forma programada.
+- Dependências: Gerenciar a sequência correta das etapas, garantindo que a transformação só ocorra após a ingestão.
+- Escalabilidade: Preparar para futuras etapas, como enriquecimento, validação ou carga em bancos de dados.
+- Monitoramento: Identificar rapidamente falhas nas etapas e reprocessar apenas o necessário.
+
 ## Fase 2: Elaboração de Scripts Iniciais
 
 **1. Script para Ingestão de Dados:**
@@ -99,6 +107,50 @@ https://datasus.saude.gov.br/transferencia-de-arquivos/#
 - Tarefa Inicial com Spark
 - Objetivo: Filtrar colunas principais, remover registros inválidos e salvar como Parquet.
 - Código Python para Transformação: [scripts/transformation.py](scripts/transformation.py)
+
+## Fase 3: Orquestração no Airflow
+
+**1. Configuração do Ambiente do Airflow:**
+
+- Usaremos o Amazon MWAA (Managed Workflows for Apache Airflow) como a versão gerenciada do Airflow na AWS, eliminando a necessidade de configurá-lo manualmente.
+- Instalar Airflow Localmente com Docker:
+  - Criar o Arquivo docker-compose.yaml.
+  - Subir o Airflow: Executar os comandos no terminal:
+
+```bash
+## bash
+mkdir dags logs plugins
+docker-compose up -d
+
+```
+
+- Acessar a Interface:
+  - Abra o navegador e vá para http://localhost:8080.
+  - Use as credenciais padrão:
+    Usuário: `airflow`
+    Senha: `airflow`
+
+**2. Estrutura da DAG:**
+
+- Tarefa 1: Baixar dados do DATASUS (ingestão para o S3).
+- Tarefa 2: Processar os dados no Spark (transformação para S3 Silver).
+- Tarefa 3: (opcional): Validar os dados e enviar um alerta em caso de falha.
+
+**3. Monitoramento:**
+
+- Configurar o monitoramento básico com alertas via e-mail ou Amazon SNS.
+- Incluir logs detalhados para cada tarefa no Airflow, facilitando o diagnóstico de erros.
+
+**4. Integração com o AWS:**
+
+- Configurar a conexão do Airflow com:
+  - S3: Para leitura/escrita de dados.
+  - EKS (Kubernetes): Para rodar tarefas Spark (opcional no início).
+  - CloudWatch: Para logs centralizados.
+
+---
+
+---
 
 ## Especificação Técnica
 
@@ -131,6 +183,23 @@ https://datasus.saude.gov.br/transferencia-de-arquivos/#
   - **2.2.1. Primeiro: Instale as dependências necessárias com pip:**
     pip install pyspark
     pip install boto3
+
+    - **Airflow Versão Recomendada e Inicialização:**
+
+      - A versão mais recente do Airflow geralmente exige um ambiente virtual dedicado para evitar conflitos de dependências.
+      - É uma boa prática criar e ativar um ambiente virtual antes de instalar:
+        `# Crie um ambiente virtual dedicado`
+        `python -m venv airflow_env`
+        `source airflow_env/bin/activate  # No Windows use: airflow_env\Scripts\activate`
+
+        `# Instale o Airflow com extras básicos`
+        `pip install apache-airflow`
+
+      - **Instalando Extras e Operadores Adicionais:**
+        - Se você precisar de operadores adicionais, como para integração com o AWS, ajuste o comando para incluir o extra [aws].
+        - O extra [aws] inclui bibliotecas úteis para conectar ao S3 ou outros serviços da AWS.
+          `pip install apache-airflow[aws]`
+        - Verificando a Instalação: `airflow version`
 
   - **2.2.2. Segundo: Gere arquivo requirements.txt**
     pip freeze > requirements.txt

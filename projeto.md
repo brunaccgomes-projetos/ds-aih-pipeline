@@ -100,3 +100,40 @@ https://datasus.saude.gov.br/transferencia-de-arquivos/#
 - Tarefa Inicial com Spark
 - Objetivo: Filtrar colunas principais, remover registros inválidos e salvar como Parquet.
 - Código Python para Transformação: [scripts/transformation.py](scripts/transformation.py)
+
+## Fase 3: Orquestração no Airflow
+
+**1. Configuração do Ambiente do Airflow:**
+
+- Usaremos o Amazon MWAA (Managed Workflows for Apache Airflow) como a versão gerenciada do Airflow na AWS, eliminando a necessidade de configurá-lo manualmente.
+- Instalar Airflow Localmente com Docker:
+  - Criar o Arquivo docker-compose.yaml.
+  - Subir o Airflow: Executar os comandos no terminal:
+
+```bash
+## bash
+mkdir dags logs plugins
+docker-compose up -d
+```
+
+- Acessar a Interface:
+  - Abra o navegador e vá para http://localhost:8080.
+  - Use as credenciais padrão:
+    Usuário: `airflow`
+    Senha: `airflow`
+
+**2. Criar uma DAG de Ingestão e Transformação:**
+
+- No diretório dags, crie um arquivo chamado aih_pipeline.py
+
+**3. Monitoramento:**
+
+- Configurar o monitoramento básico com alertas via e-mail ou Amazon SNS.
+- Incluir logs detalhados para cada tarefa no Airflow, facilitando o diagnóstico de erros.
+
+**4. Integração com o AWS:**
+
+- Configurar a conexão do Airflow com:
+  - S3: Para leitura/escrita de dados.
+  - EKS (Kubernetes): Para rodar tarefas Spark (opcional no início).
+  - CloudWatch: Para logs centralizados.
