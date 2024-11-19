@@ -46,7 +46,7 @@ https://datasus.saude.gov.br/transferencia-de-arquivos/#
 Ingestão:
 
 - Baixar os dados da AIH do DATASUS (formato CSV ou DBF).
-  - (https://datasus.saude.gov.br/transferencia-de-arquivos/#)
+  - https://datasus.saude.gov.br/transferencia-de-arquivos/#
 - Ingestão inicial para AWS S3 (camada Bronze).
 
 Processamento:
@@ -149,13 +149,12 @@ docker-compose up -d
 
 ---
 
----
-
 ## Especificação Técnica
 
 - IDE: VSCode (Visual Studio Code)
 - Linguagem: Python
   - Bibliotecas (principais): boto3, pyspark
+- OS: Windows 11
 
 ## Configuração e Execução
 
