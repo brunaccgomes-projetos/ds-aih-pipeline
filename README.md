@@ -156,7 +156,7 @@ docker-compose up -d
   - Bibliotecas (principais): boto3, pyspark
 - OS: Windows 11
 
-## Configuração e Execução
+## 🚀 Configuração e Execução
 
 ### 1. Criar o Ambiente Virtual
 
@@ -190,7 +190,7 @@ docker-compose up -d
 
   `pip install -r requirements.txt`
 
-2.3. OU CASO exclua o arquivo requirements.txt existente:
+2.3. OU NÃO EXISTE o arquivo requirements.txt:
 
   2.3.1. Primeiro: Instale as dependências necessárias com pip:    
 
