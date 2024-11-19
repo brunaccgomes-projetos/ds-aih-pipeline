@@ -3,21 +3,21 @@ Desenvolvimento de uma pipeline robusta de dados para ingestão e transformaçã
 
 # Projeto
 - Escopo Inicial para AIH1
-  - 1. Definir o Período de Análise
-  - 2. Variáveis de Interesse
-  - 3. Objetivos Analíticos Focados
-  - 4. Dados Complementares (Opcional)
+      1. Definir o Período de Análise
+      2. Variáveis de Interesse
+      3. Objetivos Analíticos Focados
+      4. Dados Complementares (Opcional)
 - Primeiras Etapas
-  - Ingestão
-  - Processamento
-  - Resultados Simples
+      - Ingestão
+      - Processamento
+      - Resultados Simples
 - Fase 1: Planejamento da Pipeline de Dados
-  - 1. Estrutura da Pipeline
-  - 2. Componentes e Ferramentas
-  - 3. Variáveis Inicialmente Selecionadas
+      - 1. Estrutura da Pipeline
+      - 2. Componentes e Ferramentas
+      - 3. Variáveis Inicialmente Selecionadas
 - Fase 2: Elaboração de Scripts Iniciais
-  - 1. Script para Ingestão de Dados
-  - 2. Componentes e Ferramentas
+      - 1. Script para Ingestão de Dados
+      - 2. Componentes e Ferramentas
   
 
 <a id="ancora1"></a>
@@ -78,13 +78,13 @@ Desenvolvimento de uma pipeline robusta de dados para ingestão e transformaçã
   - Data de admissão e alta.
 
 ## Fase 2: Elaboração de Scripts Iniciais
-**1. Script para Ingestão de Dados**
-O script buscará arquivos CSV disponíveis no DATASUS e os carregará para a camada Bronze do Azure Data Lake.
-Código Python para Ingestão: [scripts/ingestion.py](scripts/ingestion.py)
+**1. Script para Ingestão de Dados:**
+  - O script buscará arquivos CSV disponíveis no DATASUS e os carregará para a camada Bronze do Azure Data Lake.
+  - Código Python para Ingestão: [scripts/ingestion.py](scripts/ingestion.py)
 
-**2. Script para Transformação (Camada Silver)**
-Após a ingestão, o próximo passo será usar o Apache Spark para limpar e padronizar os dados.
-Tarefa Inicial com Spark
-Objetivo: Filtrar colunas principais, remover registros inválidos e salvar como Parquet.
-Código Python para Transformação: [scripts/transformation.py](scripts/transformation.py)
+**2. Script para Transformação (Camada Silver):**
+  - Após a ingestão, o próximo passo será usar o Apache Spark para limpar e padronizar os dados.
+  - Tarefa Inicial com Spark
+  - Objetivo: Filtrar colunas principais, remover registros inválidos e salvar como Parquet.
+  - Código Python para Transformação: [scripts/transformation.py](scripts/transformation.py)
 
