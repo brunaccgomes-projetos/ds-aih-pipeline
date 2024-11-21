@@ -164,69 +164,64 @@ docker-compose up -d
 
 1.2. Navegue até o diretório base do projeto:
 
-  `cd D:\GitHub\ds-aih-pipeline`
+`cd D:\GitHub\ds-aih-pipeline`
 
 1.3. Crie o ambiente virtual:
 
-  `python -m venv airflow_env`
+`python -m venv venv`
 
 1.4. Ative o ambiente virtual:
 
-  `venv\Scripts\activate`
+`venv\Scripts\activate`
 
-### 2. Criar e Ativar um Ambiente Virtual antes de Instalar as Dependências
+### 2. Instalar as Dependências
 
-2.1. Criar e Ativar Ambiente Virtual:
-  - A versão mais recente do Airflow geralmente exige um ambiente virtual dedicado para evitar conflitos de dependências.
-  - É uma boa prática criar e ativar um ambiente virtual antes de instalar:
+2.1. Instalar as Dependências do arquivo requirements.txt existente:
 
-  `python -m venv airflow_env`
-    
-  `source airflow_env/bin/activate`
-    
-  `airflow_env\Scripts\activate`
-    
-2.2. Instalar as Dependências do arquivo requirements.txt existente:  
+`pip install -r requirements.txt`
 
-  `pip install -r requirements.txt`
+2.2. OU NÃO EXISTE o arquivo requirements.txt:
 
-2.3. OU NÃO EXISTE o arquivo requirements.txt:
+2.2.1. Primeiro: Instale as dependências necessárias com pip:
 
-  2.3.1. Primeiro: Instale as dependências necessárias com pip:    
+Instalando Extras e Operadores Adicionais: - Se você precisar de operadores adicionais, como para integração com o AWS, ajuste o comando para incluir o extra [aws]. - O extra [aws] inclui bibliotecas úteis para conectar ao S3 ou outros serviços da AWS.
 
-  ```bash
-  pip install pyspark  
-  pip install boto3  
-  pip install apache-airflow  
-  pip install apache-airflow[aws]
-  ```  
-      
-  Instalando Extras e Operadores Adicionais:
-    - Se você precisar de operadores adicionais, como para integração com o AWS, ajuste o comando para incluir o extra [aws].
-    - O extra [aws] inclui bibliotecas úteis para conectar ao S3 ou outros serviços da AWS.
-  
-  2.3.2. Segundo: Gere arquivo requirements.txt
-  
-  `pip freeze > requirements.txt`
+```bash
+# por uma única linha
+pip install pandas pyspark boto3 apache-airflow apache-airflow[aws]
+```
+
+```bash
+# linha por linha
+pip install pandas
+pip install pyspark
+pip install boto3
+pip install apache-airflow
+pip install apache-airflow[aws]
+```
+
+2.2.2. Segundo: Gere arquivo requirements.txt
+
+`pip freeze > requirements.txt`
 
 ### 3. Executar o Script
 
-  3.1. Navegue até o diretório onde está o script:
-  
-  `cd D:\GitHub\ds-aih-pipeline\scripts`
+3.1. Navegue até o diretório onde está o script:
 
-  3.2. Execute o script de ingestion com o Python:
+`cd D:\GitHub\ds-aih-pipeline\scripts`
 
-  `python ingestion.py`
+3.2. Execute o script de ingestion com o Python:
+
+`python ingestion.py`
 
 ### 4. Manutenção do Ambiente
 
-  4.1. Para Desativar o Ambiente:
-  Quando terminar de usar o ambiente virtual, você pode desativá-lo com o comando:
-  
-  `deactivate`
+4.1. Para Desativar o Ambiente:
+Quando terminar de usar o ambiente virtual, você pode desativá-lo com o comando:
 
-  4.2. Para Reativar o Ambiente:
-  Sempre que quiser executar novamente, reative o ambiente com:
-  
-  `venv\Scripts\activate`                           
+`deactivate`
+
+4.2. Para Reativar o Ambiente:
+Sempre que quiser executar novamente, reative o ambiente com:
+
+`venv\Scripts\activate`
