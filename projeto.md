@@ -1,139 +1,91 @@
-# Projeto
+## **Escopo Inicial: Projeto de Engenharia de Dados na Saúde no Brasil**
 
-Desenvolvimento de uma pipeline de dados para ingestão e transformação de grandes volumes de dados de internações hospitalares (AIH - Autorização de Internação Hospitalar) do DATASUS.
+### 💡 **Contexto do Negócio**
 
-# Componentes e Ferramentas:\*\*
+O projeto visa melhorar a eficiência na análise e utilização de dados do Sistema Único de Saúde (SUS) para identificar padrões em internações hospitalares, prevenir complicações em pacientes crônicos e otimizar recursos de saúde. A plataforma será criada para ingestão, transformação, análise e disponibilização de dados de saúde pública, com foco em democratizar o acesso a dados para pesquisadores e gestores.
 
-- **AWS S3:** Armazenamento em camadas (Bronze, Silver e Gold).
-- **Apache Spark:** Processamento distribuído de dados.
-- **Airflow:** Orquestração das tarefas da pipeline.
-- **Docker:** Criação de containers para padronizar ambientes.
-- **SQL:** Para consultas e agregações durante a transformação.
+----------
 
-## Url Download
+## 🎯 **Objetivos do Projeto**
 
-https://datasus.saude.gov.br/transferencia-de-arquivos/#
+1.  **Desenvolver uma pipeline robusta de dados** para ingestão e transformação de grandes volumes de dados de saúde pública, com foco nos sistemas do SUS.
+2.  **Analisar internações e tratamentos** para identificar padrões que podem auxiliar na prevenção de complicações em doenças crônicas como diabetes e hipertensão.
+3.  **Facilitar a tomada de decisão** ao entregar dados prontos para uso em modelos analíticos e dashboards interativos.
+4.  **Garantir escalabilidade e confiabilidade** por meio de uma arquitetura moderna utilizando contêineres e serviços gerenciados em nuvem.
 
-![alt text](imgs/tranfer-arquivos-sih-datasus.jpg)
+----------
 
-## Escopo Inicial para AIH
+## 🛠 **Etapas do Projeto**
 
-**1. Definir o Período de Análise:**
+### **1. Ingestão de Dados**
 
-- Intervalo de 3 a 5 anos (2018 a 2023).
-- Dados limitados pelo estado de São Paulo para reduzir o volume inicial.
+-   **Origem dos dados**:
+    -   Arquivos CSV, JSON e Parquet disponíveis no DATASUS e em portais estaduais de saúde.
+    -   Dados de APIs públicas do SUS e outros órgãos relacionados.
+-   **Ferramentas e Tecnologias**:
+    -   **Python**: Scripts para ingestão inicial e manipulação dos dados.
+    -   **Airflow**: Agendador de tarefas para automação do processo de ingestão.
+    -   **Docker**: Criação de containers para executar serviços de ingestão de forma isolada.
 
-**2. Variáveis de Interesse:**
+### **2. Armazenamento de Dados**
 
-- Diagnóstico principal (CID).
-- Procedimentos realizados.
-- Duração da internação.
-- Custos da internação.
-- Tipo de hospital (público ou privado).
+-   **Estratégia de armazenamento**:
+    -   Dados brutos: Salvos no **AWS S3** em camadas (Bronze).
+    -   Dados processados: Após ETL, armazenados nas camadas Silver e Gold.
+    -   Compatível com processamento distribuído no **Apache Spark**.
+-   **Organização**:
+    -   Diretórios segmentados por estado, tipo de dado e ano.
+    -   Metadados gerenciados em um catálogo de dados no **AWS Glue**.
 
-**3. Objetivos Analíticos Focados:**
+### **3. Processamento e Transformação**
 
-- Identificar os diagnósticos mais frequentes por tipo de hospital e região.
-- Analisar os custos médios por tipo de internação.
-- Avaliar a evolução do tempo médio de internação para doenças crônicas.
+-   **Pipeline de ETL**:
+    -   Transformação e limpeza dos dados no **Apache Spark**.
+    -   Uso de SQL para padronizar nomenclaturas e realizar agregações (ex.: sumarização de internações por tipo de hospital e município).
+    -   Implementação de tarefas distribuídas para alta performance.
+-   **Ferramentas e Tecnologias**:
+    -   **Airflow** para orquestração.
+    -   **Docker** e **Kubernetes** para execução em clusters.
+    -   **Python** para validação e criação de scripts auxiliares.
 
-**4. Dados Complementares (Opcional):**
+### **4. Modelagem Analítica e Curadoria**
 
-- Tabelas de referências do DATASUS, como códigos CID e procedimentos.
+-   **Modelagem**:
+    -   Desenvolvimento de tabelas analíticas (fatos e dimensões).
+    -   Organização no formato estrela ou floco de neve, dependendo da necessidade analítica.
+-   **Entrega**:
+    -   Dados otimizados para dashboards Power BI ou Tableau.
+    -   Exportação de datasets para cientistas de dados via APIs.
 
-## Primeiras Etapas
+### **5. Monitoramento e CI/CD**
 
-**Ingestão:**
+-   **Monitoramento**:
+    -   Implementação de monitoramento com métricas de sucesso/falha das pipelines (ex.: logs de execução no Airflow e Spark UI).
+    -   Alertas em casos de falha de execução.
+-   **CI/CD**:
+    -   Criação de pipelines de entrega contínua para scripts de ETL e imagens Docker.
+    -   Deploy automatizado em clusters **EKS (Amazon Elastic Kubernetes Service)**.
+    -   Uso de ferramentas como **GitHub Actions** ou **Azure DevOps**.
 
-- Baixar os dados da AIH do DATASUS (formato CSV ou DBF).
-  - (https://datasus.saude.gov.br/transferencia-de-arquivos/#)
-- Ingestão inicial para AWS S3 (camada Bronze).
+----------
 
-**Processamento:**
+## 🏆 **Resultados Esperados**
 
-- Padronizar e limpar os dados no Apache Spark.
-- Estruturar tabelas analíticas para facilitar consultas.
+1.  **Dados limpos e organizados**: Acessíveis em um formato escalável e pronto para análise.
+2.  **Insights de saúde pública**: Identificação de padrões críticos para melhorar o atendimento em doenças crônicas.
+3.  **Otimização de custos em saúde**: Suporte a políticas públicas com base em evidências extraídas dos dados.
+4.  **Sustentabilidade tecnológica**: Infraestrutura modular e escalável para expansão futura.
 
-**Resultados Simples:**
+----------
 
-- Criar uma tabela básica com os diagnósticos mais frequentes e custos associados.
+## 🎛 **Principais Requisitos Técnicos**
 
-## Fase 1: Planejamento da Pipeline de Dados
+-   **Docker**: Criação de imagens para pipelines de ingestão e transformação.
+-   **Airflow**: Agendamento e monitoramento de tarefas.
+-   **Apache Spark**: Processamento distribuído de grandes volumes de dados.
+-   **SQL**: Consultas para transformar e preparar dados.
+-   **AWS S3**: Armazenamento escalável e seguro.
+-   **EKS**: Orquestração de containers para alta disponibilidade.
+-   **CI/CD**: Deploy automatizado de mudanças no código.
 
-### Etapas
-
-**1. Estrutura da Pipeline:**
-
-- Camada de Ingestão:
-  - Baixar os dados de AIH do DATASUS para a camada "Bronze" do AWS S3.
-- Camada de Processamento:
-  - Limpar, padronizar e transformar os dados utilizando Apache Spark.
-- Camada de Análise:
-  - Criar tabelas analíticas (camada "Gold") prontas para consumo por ferramentas de visualização e análises.
-
-**2. Componentes e Ferramentas:**
-
-- AWS S3: Armazenamento em camadas (Bronze, Silver e Gold).
-- Apache Spark: Processamento distribuído de dados.
-- Airflow: Orquestração das tarefas da pipeline.
-- Docker: Criação de containers para padronizar ambientes.
-- SQL: Para consultas e agregações durante a transformação.
-
-**3. Variáveis Inicialmente Selecionadas:**
-
-- Diagnósticos (CID principal e secundário).
-- Tempo de internação.
-- Custo total da internação.
-- Tipo de hospital (público ou privado).
-- Data de admissão e alta.
-
-## Fase 2: Elaboração de Scripts Iniciais
-
-**1. Script para Ingestão de Dados:**
-
-- O script buscará arquivos CSV disponíveis no DATASUS e os carregará para a camada Bronze do AWS S3.
-- Código Python para Ingestão: [scripts/ingestion.py](scripts/ingestion.py)
-
-**2. Script para Transformação (Camada Silver):**
-
-- Após a ingestão, o próximo passo será usar o Apache Spark para limpar e padronizar os dados.
-- Tarefa Inicial com Spark
-- Objetivo: Filtrar colunas principais, remover registros inválidos e salvar como Parquet.
-- Código Python para Transformação: [scripts/transformation.py](scripts/transformation.py)
-
-## Fase 3: Orquestração no Airflow
-
-**1. Configuração do Ambiente do Airflow:**
-
-- Usaremos o Amazon MWAA (Managed Workflows for Apache Airflow) como a versão gerenciada do Airflow na AWS, eliminando a necessidade de configurá-lo manualmente.
-- Instalar Airflow Localmente com Docker:
-  - Criar o Arquivo docker-compose.yaml.
-  - Subir o Airflow: Executar os comandos no terminal:
-
-```bash
-## bash
-mkdir dags logs plugins
-docker-compose up -d
-```
-
-- Acessar a Interface:
-  - Abra o navegador e vá para http://localhost:8080.
-  - Use as credenciais padrão:
-    Usuário: `airflow`
-    Senha: `airflow`
-
-**2. Criar uma DAG de Ingestão e Transformação:**
-
-- No diretório dags, crie um arquivo chamado aih_pipeline.py
-
-**3. Monitoramento:**
-
-- Configurar o monitoramento básico com alertas via e-mail ou Amazon SNS.
-- Incluir logs detalhados para cada tarefa no Airflow, facilitando o diagnóstico de erros.
-
-**4. Integração com o AWS:**
-
-- Configurar a conexão do Airflow com:
-  - S3: Para leitura/escrita de dados.
-  - EKS (Kubernetes): Para rodar tarefas Spark (opcional no início).
-  - CloudWatch: Para logs centralizados.
+----------
