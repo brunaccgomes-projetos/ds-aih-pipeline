@@ -1,5 +1,5 @@
-Listagem de caminhos de pasta para o volume DATA
-O número de série do volume é 3EE6-5D83
+# Estrutura de Diretórios e Arquivos do Projeto no VS Code.
+
 ds-aih-pipeline
 |   .gitignore
 |   docker-compose.yaml
