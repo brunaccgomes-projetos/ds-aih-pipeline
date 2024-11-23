@@ -1,4 +1,15 @@
-## **Escopo Inicial: Projeto de Engenharia de Dados na Saúde no Brasil**
+## **Escopo do Projeto de Engenharia de Dados na Saúde no Brasil**
+
+- [💡 **Contexto do Negócio**](#-contexto-do-negócio)
+- [🎯 **Objetivos do Projeto**](#-objetivos-do-projeto)
+- [🎛 **Principais Requisitos Técnicos**](#-principais-requisitos-técnicos)
+- [🛠 **Etapas do Projeto**](#-etapas-do-projeto)
+    - [**1. Ingestão de Dados**](#1-ingestão-de-dados)
+    - [**2. Armazenamento de Dados**](#2-armazenamento-de-dados)
+    - [**3. Processamento e Transformação**](#3-processamento-e-transformação)
+    - [**4. Modelagem Analítica e Curadoria**](#4-modelagem-analítica-e-curadoria)
+    - [**5. Monitoramento e CI/CD**](#5-monitoramento-e-cicd)
+- [🏆 **Resultados Esperados**](#-resultados-esperados)
 
 ### 💡 **Contexto do Negócio**
 
@@ -12,6 +23,18 @@ O projeto visa melhorar a eficiência na análise e utilização de dados do Sis
 2.  **Analisar internações e tratamentos** para identificar padrões que podem auxiliar na prevenção de complicações em doenças crônicas como diabetes e hipertensão.
 3.  **Facilitar a tomada de decisão** ao entregar dados prontos para uso em modelos analíticos e dashboards interativos.
 4.  **Garantir escalabilidade e confiabilidade** por meio de uma arquitetura moderna utilizando contêineres e serviços gerenciados em nuvem.
+
+----------
+
+## 🎛 **Principais Requisitos Técnicos**
+
+-   **Docker**: Criação de imagens para pipelines de ingestão e transformação.
+-   **Airflow**: Agendamento e monitoramento de tarefas.
+-   **Apache Spark**: Processamento distribuído de grandes volumes de dados.
+-   **SQL**: Consultas para transformar e preparar dados.
+-   **AWS S3**: Armazenamento escalável e seguro.
+-   **EKS**: Orquestração de containers para alta disponibilidade.
+-   **CI/CD**: Deploy automatizado de mudanças no código.
 
 ----------
 
@@ -78,14 +101,3 @@ O projeto visa melhorar a eficiência na análise e utilização de dados do Sis
 
 ----------
 
-## 🎛 **Principais Requisitos Técnicos**
-
--   **Docker**: Criação de imagens para pipelines de ingestão e transformação.
--   **Airflow**: Agendamento e monitoramento de tarefas.
--   **Apache Spark**: Processamento distribuído de grandes volumes de dados.
--   **SQL**: Consultas para transformar e preparar dados.
--   **AWS S3**: Armazenamento escalável e seguro.
--   **EKS**: Orquestração de containers para alta disponibilidade.
--   **CI/CD**: Deploy automatizado de mudanças no código.
-
-----------
