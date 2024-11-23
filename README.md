@@ -1,6 +1,17 @@
 # 🏥 Projeto de Engenharia de Dados na Saúde no Brasil
 
 Desenvolvimento de uma pipeline de dados para ingestão e transformação de grandes volumes de dados de internações hospitalares (AIH - Autorização de Internação Hospitalar) do DATASUS.
+- [Escopo do Projeto](#github-extra-pins)
+---
+
+- [💻 Especificação Técnica](#-especificação-técnica)
+- [🛠️ Componentes e Ferramentas](#%EF%B8%8F-componentes-e-ferramentas)
+- [🚀 Configuração e Execução](#-configuração-e-execução)
+    - [1. Criar o Ambiente Virtual](#1-criar-o-ambiente-virtual)
+    - [2. Instalar as Dependências](#2-instalar-as-dependências)
+    - [3. Executar o Script](#3-executar-o-script)
+    - [4. Manutenção do Ambiente](#4-manutenção-do-ambiente)
+
 
 ---
 
@@ -11,7 +22,7 @@ Desenvolvimento de uma pipeline de dados para ingestão e transformação de gra
   - Bibliotecas (principais): boto3, pyspark
 - OS: Windows 11
 
-## 🛠️ Componentes e Ferramentas:
+## 🛠️ Componentes e Ferramentas
 
 - AWS S3: Armazenamento em camadas (Bronze, Silver e Gold).
 - Apache Spark: Processamento distribuído de dados.
