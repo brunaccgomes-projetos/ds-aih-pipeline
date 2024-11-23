@@ -5,13 +5,11 @@ Desenvolvimento de uma pipeline de dados para ingestão e transformação de gra
 
 ### ♻ Ajustes e Melhorias
 
-O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas:
+O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas de:
 
-- [x] Tarefa 1
-- [x] Tarefa 2
-- [x] Tarefa 3
-- [ ] Tarefa 4
-- [ ] Tarefa 5
+ [Orquestração no Airflow / Monitoramento](docs/README.md#fase-3-orquestração-no-airflow)
+- [x] Configurar o monitoramento básico com alertas via e-mail ou Amazon SNS.
+- [x] Incluir logs detalhados para cada tarefa no Airflow, facilitando o diagnóstico de erros.
 ---
 
 - [💻 Especificação Técnica](#-especificação-técnica)
