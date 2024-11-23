@@ -1,7 +1,17 @@
 # 🏥 Projeto de Engenharia de Dados na Saúde no Brasil
 
 Desenvolvimento de uma pipeline de dados para ingestão e transformação de grandes volumes de dados de internações hospitalares (AIH - Autorização de Internação Hospitalar) do DATASUS.
-- [Escopo do Projeto](projeto.md#escopo-do-projeto-de-engenharia-de-dados-na-saúde-no-brasil)
+- Leia o [Escopo do Projeto](projeto.md#escopo-do-projeto-de-engenharia-de-dados-na-saúde-no-brasil)
+
+### Ajustes e melhorias
+
+O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas:
+
+- [x] Tarefa 1
+- [x] Tarefa 2
+- [x] Tarefa 3
+- [ ] Tarefa 4
+- [ ] Tarefa 5
 ---
 
 - [💻 Especificação Técnica](#-especificação-técnica)
