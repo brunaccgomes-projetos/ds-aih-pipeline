@@ -66,7 +66,9 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 
 2.2.1. Primeiro: Instale as dependências necessárias com pip:
 
-Instalando Extras e Operadores Adicionais: - Se você precisar de operadores adicionais, como para integração com o AWS, ajuste o comando para incluir o extra [aws]. - O extra [aws] inclui bibliotecas úteis para conectar ao S3 ou outros serviços da AWS.
+Instalando Extras e Operadores Adicionais: 
+- Se você precisar de operadores adicionais, como para integração com o AWS, ajuste o comando para incluir o extra [aws].
+- O extra [aws] inclui bibliotecas úteis para conectar ao S3 ou outros serviços da AWS.
 
 ```bash
 # por uma única linha
