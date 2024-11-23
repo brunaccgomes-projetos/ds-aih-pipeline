@@ -8,6 +8,7 @@ from scripts.gold.aggregation import aggregate_data
 from scripts.gold.enrichment import enrich_data
 from scripts.gold.formatting import format_data
 from scripts.gold.finalization import finalize_data
+from scripts.utils.alerts import send_sns_alert
 
 # Definindo os argumentos padrão
 default_args = {
@@ -67,6 +68,13 @@ finalize_task = PythonOperator(
     task_id="finalize_data",
     python_callable=finalize_data,
     dag=dag
+)
+
+ingest_task = PythonOperator(
+    task_id="ingest_data",
+    python_callable=ingest_data,
+    on_failure_callback=send_sns_alert,
+    dag=dag,
 )
 
 # Definindo a ordem das tarefas
