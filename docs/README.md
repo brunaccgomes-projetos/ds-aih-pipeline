@@ -128,4 +128,3 @@ docker-compose up -d
   - S3: Para leitura/escrita de dados.
   - EKS (Kubernetes): Para rodar tarefas Spark (opcional no início).
   - CloudWatch: Para logs centralizados.
-
